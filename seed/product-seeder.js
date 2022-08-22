@@ -4,9 +4,7 @@ var mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.MONGO_URL, {
-  useMongoClient: true,
-});
+mongoose.connect(process.env.MONGO_URL);
 // var pro= new Product() so by doing this we store 1 product of SCHEMA "Product" in variable pro....but here we have
 //done the same thing in array so that we can use loop.
 var products = [

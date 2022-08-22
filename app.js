@@ -10,7 +10,7 @@ var session = require("express-session");
 var passport = require("passport");
 var flash = require("connect-flash");
 var validator = require("express-validator");
-var MongoStore = require("connect-mongo")(session);
+var MongoStore = require("connect-mongo");
 
 const {
   allowInsecurePrototypeAccess,
@@ -23,9 +23,7 @@ var app = express();
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.MONGO_URL, {
-  useMongoClient: true,
-});
+mongoose.connect(process.env.MONGO_URL);
 require("./config/passport");
 
 // view engine setup
@@ -48,10 +46,10 @@ app.use(validator());
 app.use(cookieParser());
 app.use(
   session({
-    secret: "secret",
+    secret: process.env.APP_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: new MongoStore({ mongoUrl: process.env.MONGO_URL }),
     cookie: { maxAge: 180 * 60 * 1000 },
   })
 );
